@@ -27,7 +27,7 @@ class CameraEcho(BoxLayout):
 
         # Send request.
         UrlRequest(
-            'http://localhost:8000/echo/',
+            'http://127.0.0.1:8000/echo/',
             req_headers={'Content-Type': 'application/json'},
             req_body=json.dumps(req_body),
             on_success=self._update_echo,

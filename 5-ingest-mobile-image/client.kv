@@ -1,0 +1,14 @@
+<CameraEcho>
+    _camera: camera
+    _echo: echo
+    orientation: "vertical"
+    Camera:
+        id: camera
+        resolution: (320, 240)
+        play: True
+    Image:
+        id: echo
+    Button:
+        text: "POST"
+        size_hint_y: None
+        on_press: root._post()

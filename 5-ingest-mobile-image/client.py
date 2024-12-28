@@ -1,9 +1,11 @@
 """
 Dummy mobile client for testing GET and POST requests.
 """
+from io import BytesIO
 import json
 from typing import Any
 from kivy.app import App
+from kivy.core.image import Image as CoreImage
 from kivy.network.urlrequest import UrlRequest
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
@@ -44,7 +46,8 @@ class CameraEcho(BoxLayout):
             req (UrlRequest): HTTP(S) request
             result (Any): request result
         """
-        print(type(result))
+        img = CoreImage(BytesIO(result), ext='png')
+        self._echo.texture = img.texture
 
 
 class ClientApp(App):

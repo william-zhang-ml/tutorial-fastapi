@@ -1,6 +1,7 @@
 """
 CRUD interface for employee database.
 """
+from typing import Union
 from fastapi import FastAPI
 import database
 
@@ -33,6 +34,22 @@ async def readall() -> list:
     return app_db.readall()
 
 
+@app.patch('/update/{employee_id}/{column}/{value}')
+async def update(
+    employee_id: int,
+    column: str,
+    value: Union[str, int]
+) -> None:
+    """UPDATE `employee` entry corresponding to an ID.
+
+    Returns:
+        employee_id (int): employee ID of entry to delete
+        column (str): column to update
+        value (Any): new column value for employee
+    """
+    app_db.update(employee_id, column, value)
+
+
 @app.delete('/delete/{employee_id}')
 async def delete(employee_id: int) -> None:
     """DELETE `employee` entry corresponding to an ID.
@@ -40,4 +57,4 @@ async def delete(employee_id: int) -> None:
     Args:
         employee_id (int): employee ID of entry to delete
     """
-    return app_db.delete(employee_id)
+    app_db.delete(employee_id)

@@ -3,6 +3,7 @@ Fake database of employee data based on Corey Schafer's SQLite tutorial.
 """
 import os
 import sqlite3
+from typing import Union
 from pydantic import BaseModel
 
 
@@ -77,6 +78,40 @@ class EmployeeDatabase:
             cursor.execute('SELECT * FROM employees')
             data = cursor.fetchall()
         return data
+
+    def update(
+        self,
+        employee_id: int,
+        column: str,
+        value: Union[str, int]
+    ) -> None:
+        """UPDATE `employee` entry corresponding to an ID.
+
+        Returns:
+            employee_id (int): employee ID of entry to delete
+            column (str): column to update
+            value (Union[str, int]): new column value for employee
+        """
+
+        # sanitize <column> to defend against injection
+        try:
+            assert column in ['first', 'last', 'pay']
+        except AssertionError:
+            pass  # triage bad input, potential attack
+
+        with sqlite3.connect(self._path) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                f'''
+                UPDATE employees
+                SET {column} = :value
+                WHERE employee_id = :emp_id
+                ''',
+                {
+                    'emp_id': employee_id,
+                    'value': value
+                }
+            )
 
     def delete(self, employee_id: int) -> None:
         """Delete `employee` entry corresponding to an ID.

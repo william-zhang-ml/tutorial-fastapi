@@ -31,3 +31,13 @@ async def readall() -> list:
         list: employee data
     """
     return app_db.readall()
+
+
+@app.delete('/delete/{employee_id}')
+async def delete(employee_id: int) -> None:
+    """DELETE `employee` entry corresponding to an ID.
+
+    Args:
+        employee_id (int): employee ID of entry to delete
+    """
+    return app_db.delete(employee_id)

@@ -67,7 +67,7 @@ class EmployeeDatabase:
         return insert_id
 
     def readall(self) -> list:
-        """Get every entry in the `employees` table.
+        """Read every entry in the `employees` table.
 
         Returns:
             list: employee data
@@ -77,3 +77,19 @@ class EmployeeDatabase:
             cursor.execute('SELECT * FROM employees')
             data = cursor.fetchall()
         return data
+
+    def delete(self, employee_id: int) -> None:
+        """Delete `employee` entry corresponding to an ID.
+
+        Args:
+            employee_id (int): employee ID of entry to delete
+        """
+        with sqlite3.connect(self._path) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                '''
+                DELETE FROM employees
+                WHERE employee_id = :emp_id
+                ''',
+                {'emp_id': employee_id}
+            )

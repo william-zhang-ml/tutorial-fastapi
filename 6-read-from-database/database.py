@@ -63,6 +63,8 @@ class EmployeeDatabase:
                 ''',
                 employee.dict()
             )
+            insert_id = cursor.lastrowid
+        return insert_id
 
     def readall(self) -> list:
         """Get every entry in the `employees` table.

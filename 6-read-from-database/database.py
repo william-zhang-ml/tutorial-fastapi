@@ -63,3 +63,15 @@ class EmployeeDatabase:
                 ''',
                 employee.dict()
             )
+
+    def readall(self) -> list:
+        """Get every entry in the `employees` table.
+
+        Returns:
+            list: employee data
+        """
+        with sqlite3.connect(self._path) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM employees')
+            data = cursor.fetchall()
+        return data
